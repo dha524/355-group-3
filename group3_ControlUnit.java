@@ -66,6 +66,7 @@ public class group3_ControlUnit extends ControlUnit {
         ExpressionEntity providedValues = (ExpressionEntity) getSubmodelEntity("ProvidedValues");
         double depositorLevel = getNumAttribute(providedValues, "DepositorLevel", simTime, -1);
         double mixerLevel = getNumAttribute(providedValues, "MixerLevel", simTime, -1);
+        double DepositorCapacity = getNumAttribute(providedValues, "DepositorCapacity", simTime, -1);
 
         ActivityStartCompare actStartComp = this.new ActivityStartCompare();
 
@@ -78,7 +79,7 @@ public class group3_ControlUnit extends ControlUnit {
             transitionTo("Depositing", staff, depositTin);
 
         // CAPACITY LEVEL OF DEPOSITOR AND MIXER, AMOUNT OF INGREDIENTS CHANGED
-        } else if (mixerLevel > 0 && refilStaff.size() == 0 && depositStaff.size() == 0 && depositorLevel != 30) {
+        } else if ((mixerLevel > 0) && refilStaff.size() == 0 && depositStaff.size() == 0 && (depositorLevel < DepositorCapacity)) {
             ActiveEntity staff = ents.get(0);
 
             transitionTo("Refilling", staff);
